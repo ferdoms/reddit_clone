@@ -1,0 +1,4 @@
+id
+userID
+linkID
+text
