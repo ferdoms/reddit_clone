@@ -2,6 +2,7 @@ import express from 'express';
 import * as bodyParser from "body-parser";
 import { Routes } from './routes';
 import { connectDB } from './db';
+import { getLinkRepository } from './repositories/link';
 
 export class App {
 
@@ -25,5 +26,6 @@ export class App {
     async connectDB(){
         return await connectDB();
     }
+    
 
 }
