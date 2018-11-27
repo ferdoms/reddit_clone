@@ -22,11 +22,11 @@ export class Routes {
         // auth
         const authController = getAuthController();
         app.use(ROOT_PATH + '/auth', authController);
-
+        
         // links
         const linksController = getLinksController();
         app.use(ROOT_PATH + '/links', linksController);
-
+        
         // user
         const usersController = getUsersController();
         app.use(ROOT_PATH + '/users', usersController);
