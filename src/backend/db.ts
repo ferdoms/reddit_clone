@@ -1,12 +1,17 @@
 import { createConnection, getConnection, getConnectionOptions } from 'typeorm';
 import { Link } from './entities/link';
-import { link } from 'fs';
+import { User } from './entities/user';
+import { Comment } from './entities/comment';
+import { Vote } from './entities/vote';
 
 
 export async function connectDB(){
 
     const entities = [
-        Link
+        Link,
+        User,
+        Comment,
+        Vote,
     ]
     // read connection options from ormconfig file (or ENV variables)
     const connectionOptions = await getConnectionOptions();
