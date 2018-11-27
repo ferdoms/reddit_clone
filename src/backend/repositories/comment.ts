@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 import { Comment } from '../entities/comment';
 
-export function linkRepository(){
+export function commentRepository(){
     
     return getRepository(Comment);
 }
