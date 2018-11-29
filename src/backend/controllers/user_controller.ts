@@ -31,7 +31,6 @@ export function getUsersController(){
             const user = await userRepository().findOne(userIdNbr);
             if(user){
                 var activities = await user.getActivities();
-                console.log(activities)
                 res.json(activities);
             }else{
                 res.status(404).send({msg:"Not found!"})
