@@ -33,7 +33,7 @@ export class Routes {
 
         // comment
         const commentController = getCommentController();
-        app.use(ROOT_PATH + '/comment', commentController);
+        app.use(ROOT_PATH + '/comments', commentController);
 
     }
 

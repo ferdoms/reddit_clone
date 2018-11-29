@@ -1,7 +1,5 @@
 import * as express from 'express';
 import { linkRepository } from '../repositories/link';
-import { Repository } from 'typeorm';
-import { Link } from '../entities/link';
 
 export function getLinksController(
     
@@ -43,7 +41,15 @@ export function getLinksController(
 
     // HTTP POST http://localhost:8080/api/v1/links
     // Creates a new link
+    router.post("/", (req, res)=>{
+        (async() => {
+            const newLink = req.body;
+            const link = await linkRepository().save(newLink);
+            res.json("bla");
 
+
+        })()
+    })
     // HTTP DELETE http://localhost:8080/api/v1/links/:id
     // Deletes a link
     router.delete("/:id", (req, res) => {
