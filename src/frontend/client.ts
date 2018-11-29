@@ -58,7 +58,7 @@ let addCommnent = (async () => {
     });
 
 
-addUser().then(()=> addLink().then(()=>addCommnent()))
+addUser().then(()=> addLink().then(()=>addCommnent().then(()=>addUser())))
 
 
 

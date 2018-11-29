@@ -9,10 +9,10 @@ export class User{
     @PrimaryGeneratedColumn()
     public id!: number;
 
-    @Column({nullable: false })
+    @Column({nullable: false, unique:true })
     public email!: string;
     
-    @Column({ length: 8 ,nullable: false })
+    @Column({ length: 8 , nullable: false })
     public password!: string;
 
     @OneToMany(type => Link, link => link.user, {

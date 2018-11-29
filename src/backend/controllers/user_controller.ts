@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { userRepository } from '../repositories/user';
-import { validate } from 'class-validator';
 import { User } from '../entities/user';
 
 export function getUsersController(){
@@ -12,9 +11,15 @@ export function getUsersController(){
     router.post("/", (req, res)=>{
         (async() => {
             const newUser:User = req.body;
-            const user = await userRepository().save(newUser);
-
-            res.json(newUser);
+            const user = await userRepository().save(newUser)
+                .then(()=>res.json(newUser))
+                .catch(err => {
+                    console.log(`Error on trying to save user:\n${err}`)
+                    res.status(400).send({
+                        msg: "Email has been taken, or password has not valid"
+                    });
+                });
+            
         })()
     })
 
@@ -31,14 +36,17 @@ export function getUsersController(){
                     msg: "Id must be a number!"
                 });
             }
-            const user = await userRepository().findOne(userIdNbr);
-            if(user){
-                var activities = await user.getActivities();
-                res.json(activities);
-            }else{
-                res.status(404).send({msg:"Not found!"})
-            }
-            
+            await userRepository().findOne(userIdNbr)
+                .then(async (user) => {
+                    if(user){
+                        var activities = await user.getActivities();
+                        res.json(user);
+                    } else {res.status(404).send({msg:"Not found!"})}
+                })
+                .catch(err=>{
+                    console.log(`Error on trying to find user:\n${err}`)
+                    res.status(500).send({msg:"Internal Server Error"})
+                })
         })();
     });
 

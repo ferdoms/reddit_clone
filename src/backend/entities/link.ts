@@ -7,10 +7,10 @@ export class Link{
     @PrimaryGeneratedColumn()
     public id!: number;
 
-    @Column([{nullable: false}])
+    @Column({nullable: false})
     public link!: string;
 
-    @Column([{nullable: false}])
+    @Column({nullable: false})
     public title!: string;
 
     @OneToOne(type => User)
