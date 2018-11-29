@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from './user';
 import { Link } from './link';
 
@@ -8,7 +8,7 @@ export class Comment{
     @PrimaryGeneratedColumn()
     public id!: number;
 
-    @Column()
+    @Column({nullable: false})
     public comment!: string;
 
     @OneToOne(type => User)
@@ -18,5 +18,11 @@ export class Comment{
     @OneToOne(type => Link)
     @JoinColumn() 
     link!: Link;
+
+    @CreateDateColumn()
+    createdDate!: Date;
+
+    @UpdateDateColumn()
+    updateDate!: Date;
 
 }

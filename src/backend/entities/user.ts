@@ -1,16 +1,18 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { IsEmail, IsString, Length } from 'class-validator'
 import { Link } from './link';
 import { Comment } from './comment';
+
 @Entity()
 export class User{
 
     @PrimaryGeneratedColumn()
     public id!: number;
 
-    @Column()
+    @Column({nullable: false })
     public email!: string;
     
-    @Column()
+    @Column({ length: 8 ,nullable: false })
     public password!: string;
 
     @OneToMany(type => Link, link => link.user, {
@@ -28,8 +30,6 @@ export class User{
 
     @UpdateDateColumn()
     updateDate!: Date;
-
-
     
     public getActivities(){
         let activities:any = [];

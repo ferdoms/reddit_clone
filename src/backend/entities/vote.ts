@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from './user';
 import { Link } from './link';
 
@@ -17,5 +17,11 @@ export class Vote{
     @OneToOne(type => Link)
     @JoinColumn() 
     link!: Link;
+
+    @CreateDateColumn()
+    createdDate!: Date;
+
+    @UpdateDateColumn()
+    updateDate!: Date;
 
 }

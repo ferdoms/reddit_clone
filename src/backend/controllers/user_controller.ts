@@ -1,5 +1,7 @@
 import * as express from 'express';
 import { userRepository } from '../repositories/user';
+import { validate } from 'class-validator';
+import { User } from '../entities/user';
 
 export function getUsersController(){
     
@@ -9,9 +11,10 @@ export function getUsersController(){
     // Creates a new user account
     router.post("/", (req, res)=>{
         (async() => {
-            const newUser = req.body;
+            const newUser:User = req.body;
             const user = await userRepository().save(newUser);
-            res.json(user);
+
+            res.json(newUser);
         })()
     })
 
