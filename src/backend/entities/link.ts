@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { User } from './user';
 
 @Entity()
@@ -13,7 +13,7 @@ export class Link{
     @Column({nullable: false})
     public title!: string;
 
-    @OneToOne(type => User)
+    @ManyToOne(type => User)
     @JoinColumn() 
     user!: User;
 
@@ -22,4 +22,5 @@ export class Link{
 
     @UpdateDateColumn()
     updateDate!: Date;
+
 }

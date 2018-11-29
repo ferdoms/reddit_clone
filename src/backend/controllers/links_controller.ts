@@ -1,21 +1,24 @@
 import * as express from 'express';
 import { linkRepository } from '../repositories/link';
+import { Vote } from '../entities/vote';
+import { voteRepository } from '../repositories/vote';
 
 export function getLinksController(
     
 ){
     
     const router = express.Router();
-    // const linkRepository= getLinkRepository();
+
     // HTTP GET http://localhost:8080/api/v1/links
     // return all links
     router.get("/", (req, res) => {
         (async () => {
-            // const movies = await movieRepository.find();
-            // res.json(movies);
-             const links = await linkRepository().find();
-            
-             res.json(links);
+            await linkRepository().find()
+                .then(links=> res.json(links))
+                .catch(err=>{
+                    console.log(`Error on trying to find links:\n${err}`)
+                    res.status(500).send({msg:"Internal Server Error"})
+                })
         })();
     });
 
@@ -31,8 +34,12 @@ export function getLinksController(
                         msg: "Id must be a number!"
                     });
                 }
-                const link = await linkRepository().findOne(linkIdNbr);
-                res.json(link);
+                await linkRepository().findOne(linkIdNbr)
+                    .then(link => {
+                        if(link){
+                            res.json(link)
+                        }else{res.status(404).send({msg:"Not found!"})}
+                    });
             })();
         
         })();
@@ -44,10 +51,14 @@ export function getLinksController(
     router.post("/", (req, res)=>{
         (async() => {
             const newLink = req.body;
-            const link = await linkRepository().save(newLink);
-            res.json("bla");
-
-
+            await linkRepository().save(newLink)
+                .then(() => res.json(newLink))
+                .catch(err => {
+                    console.log(`Error on trying to save link:\n${err}`)
+                    res.status(400).send({
+                        msg: "Bad Request"
+                    });
+                });
         })()
     })
     // HTTP DELETE http://localhost:8080/api/v1/links/:id
@@ -62,12 +73,21 @@ export function getLinksController(
                         msg: "Id must be a number!"
                     });
                 }
-                const link = await linkRepository().findOne(linkIdNbr);
-                if(await linkRepository().delete(linkIdNbr)){
-                    res.json({
-                        msg: "Item deleted."
+                await linkRepository().findOne(linkIdNbr)
+                    .then(async link=>{
+                        if(link){
+                            await linkRepository().delete(linkIdNbr)
+                            .then(()=> res.json({msg:"Item deleted"}))
+                            .catch(err=>{
+                                console.log(`Error on trying to delete link:\n${err}`)
+                                res.status(500).send({msg:"Internal Server Error"})
+                            })
+                        }else{res.status(404).send({msg:"Not found!"})}
+                    })
+                    .catch(err=>{
+                        console.log(`Error on trying to find user:\n${err}`)
+                        res.status(500).send({msg:"Internal Server Error"})
                     });
-                }
             })();
         
         })();
@@ -75,9 +95,41 @@ export function getLinksController(
 
     // HTTP POST http://localhost:8080/api/v1/links/:id/upvote
     // Upvote link
-
-    // HTTP POST http://localhost:8080/api/v1/links/:id/upvote
+    router.post("/:id/upvote", (req, res)=>{
+        (async() => {
+            const vote:Vote = req.body;
+            vote.link = req.params.id;
+            vote.isUpvoted = true;
+            await voteRepository().save(vote)
+                .then(() => res.json(vote))
+                .catch(async err => {
+                    console.log(`Error on trying to save link:\n${err}`);
+                    res.status(400).send({
+                        msg: "Bad Request"
+                    });
+                    
+                    
+                });
+        })()
+    })
+    // HTTP POST http://localhost:8080/api/v1/links/:id/downvote
     // Downvote link
-    
+    router.post("/:id/downvote", (req, res)=>{
+        (async() => {
+            const vote:Vote = req.body;
+            vote.link = req.params.id;
+            vote.isUpvoted = false;
+            await voteRepository().save(vote)
+                .then(() => res.json(vote))
+                .catch(async err => {
+                    console.log(`Error on trying to save link:\n${err}`);
+                    res.status(400).send({
+                        msg: "Bad Request"
+                    });
+                })
+
+        })()
+    })
+
     return router;
 }

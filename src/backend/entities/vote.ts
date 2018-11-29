@@ -1,20 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, Index } from 'typeorm';
 import { User } from './user';
 import { Link } from './link';
 
 @Entity()
+@Index(["user", "link"], { unique: true })
 export class Vote{
     @PrimaryGeneratedColumn()
     public id!: number;
 
     @Column()
-    public isPositive!: boolean;
+    public isUpvoted!: boolean;
 
-    @OneToOne(type => User)
+    @ManyToOne(type => User)
     @JoinColumn() 
     user!: User;
 
-    @OneToOne(type => Link)
+    @ManyToOne(type => Link)
     @JoinColumn() 
     link!: Link;
 

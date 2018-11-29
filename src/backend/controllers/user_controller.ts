@@ -40,7 +40,7 @@ export function getUsersController(){
                 .then(async (user) => {
                     if(user){
                         var activities = await user.getActivities();
-                        res.json(user);
+                        res.json(activities);
                     } else {res.status(404).send({msg:"Not found!"})}
                 })
                 .catch(err=>{
