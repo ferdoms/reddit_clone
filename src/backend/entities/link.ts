@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from './user';
+import { Comment } from './comment';
+import { Vote } from './vote';
 
 @Entity()
 export class Link{
@@ -14,8 +16,16 @@ export class Link{
     public title!: string;
 
     @ManyToOne(type => User)
-    @JoinColumn() 
+    // @JoinColumn() 
     user!: User;
+
+    @OneToMany(type => Comment, comment => comment.link, {eager: true})
+    // @JoinColumn() 
+    comment!: Comment;
+
+    @OneToMany(type => Vote, vote => vote.link)
+    // @JoinColumn() 
+    vote!: Vote;
 
     @CreateDateColumn()
     createdDate!: Date;

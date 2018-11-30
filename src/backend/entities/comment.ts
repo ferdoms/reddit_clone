@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { User } from './user';
 import { Link } from './link';
 
@@ -11,12 +11,12 @@ export class Comment{
     @Column({nullable: false})
     public comment!: string;
 
-    @OneToOne(type => User)
-    @JoinColumn() 
+    @ManyToOne(type => User)
+    // @JoinColumn() 
     user!: User;
 
-    @OneToOne(type => Link)
-    @JoinColumn() 
+    @ManyToOne(type => Link, link => link.comment, {onDelete:'CASCADE'})
+    // @JoinColumn() 
     link!: Link;
 
     @CreateDateColumn()

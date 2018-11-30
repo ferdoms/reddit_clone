@@ -12,11 +12,11 @@ export class Vote{
     public isUpvoted!: boolean;
 
     @ManyToOne(type => User)
-    @JoinColumn() 
+    // @JoinColumn() 
     user!: User;
 
-    @ManyToOne(type => Link)
-    @JoinColumn() 
+    @ManyToOne(type => Link, link => link.vote, { onDelete: 'CASCADE'})
+    // @JoinColumn() 
     link!: Link;
 
     @CreateDateColumn()

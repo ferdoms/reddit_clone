@@ -2,6 +2,7 @@ import * as express from 'express';
 import { linkRepository } from '../repositories/link';
 import { Vote } from '../entities/vote';
 import { voteRepository } from '../repositories/vote';
+import { commentRepository } from '../repositories/comment';
 
 export function getLinksController(
     
@@ -74,7 +75,7 @@ export function getLinksController(
                 }
                 const link = await linkRepository().findOne(linkIdNbr)
                 
-                if(link){
+                if(!link){
                     return res.status(404).send({msg:"Not found!"})
                 }
 
@@ -100,8 +101,6 @@ export function getLinksController(
                     res.status(400).send({
                         msg: "Bad Request"
                     });
-                    
-                    
                 });
         })()
     })
