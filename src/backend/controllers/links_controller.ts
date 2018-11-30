@@ -35,12 +35,19 @@ export function getLinksController(
                         msg: "Id must be a number!"
                     });
                 }
-                await linkRepository().findOne(linkIdNbr)
-                    .then(link => {
-                        if(link){
-                            res.json(link)
-                        }else{res.status(404).send({msg:"Not found!"})}
-                    });
+                const link = await linkRepository().findOne(linkIdNbr)
+
+                if(!link){
+                    return res.status(404).send({msg:"Not found!"})
+                }
+
+                const votesAmount = await voteRepository().count({link: link})
+                    .then(counter => {return counter}) | 0;
+
+                Object.assign(link, {votes: votesAmount})
+                res.json(link)
+                
+
             })();
         
         })();

@@ -16,21 +16,18 @@ export class Link{
     public title!: string;
 
     @ManyToOne(type => User)
-    // @JoinColumn() 
     user!: User;
 
     @OneToMany(type => Comment, comment => comment.link, {eager: true})
-    // @JoinColumn() 
-    comment!: Comment;
+    comment!: Comment[];
 
     @OneToMany(type => Vote, vote => vote.link)
-    // @JoinColumn() 
-    vote!: Vote;
+    vote!: Vote[];
 
     @CreateDateColumn()
     createdDate!: Date;
 
     @UpdateDateColumn()
     updateDate!: Date;
-
+    
 }
