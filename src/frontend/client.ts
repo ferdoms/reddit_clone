@@ -50,10 +50,10 @@ let deleteLink = (async (id:number) => {
 
 });
 
-let addCommnent = (async () => {
+let addCommnent = (async (comment:string) => {
 
         const newComment = {
-            comment: "some comment",
+            comment: comment,
             link: 1,
             user: 1
         };
@@ -66,7 +66,7 @@ let addCommnent = (async () => {
                 },
                 body:JSON.stringify(newComment)
             }
-        );
+        ).then(res=>console.log(console.log(res)));
 
 
 });
@@ -105,22 +105,17 @@ let downvoteLink = (async (linkId:number) => {
     ).then(res=>console.log(console.log("downvoted")))
 
 
-});
+})
 
 addUser()
     .then(()=> addLink()
         .then(()=>upvoteLink(1)
-            .then(()=>addLink()
+            .then(()=>addCommnent("first comment")
                 .then(()=>upvoteLink(2)
-                    .then(()=>downvoteLink(1)
+                    .then(()=>addCommnent("second comment")
                     )
             )
         )
     )
 )
-
-
-
-
-
 

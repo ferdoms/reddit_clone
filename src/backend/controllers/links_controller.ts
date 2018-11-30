@@ -64,7 +64,6 @@ export function getLinksController(
     // HTTP DELETE http://localhost:8080/api/v1/links/:id
     // Deletes a link
     router.delete("/:id", (req, res) => {
-        (async () => {
             (async () => {
                 const linkIdStr = req.params.id as string;
                 const linkIdNbr = parseInt(linkIdStr);
@@ -89,8 +88,6 @@ export function getLinksController(
                         res.status(500).send({msg:"Internal Server Error"})
                     });
             })();
-        
-        })();
     });
 
     // HTTP POST http://localhost:8080/api/v1/links/:id/upvote
