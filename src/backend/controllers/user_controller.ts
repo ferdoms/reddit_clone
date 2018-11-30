@@ -11,7 +11,7 @@ export function getUsersController(){
     router.post("/", (req, res)=>{
         (async() => {
             const newUser:User = req.body;
-            const user = await userRepository().save(newUser)
+            await userRepository().save(newUser)
                 .then(()=>res.json(newUser))
                 .catch(err => {
                     console.log(`Error on trying to save user:\n${err}`)
@@ -36,17 +36,15 @@ export function getUsersController(){
                     msg: "Id must be a number!"
                 });
             }
-            await userRepository().findOne(userIdNbr)
-                .then(async (user) => {
-                    if(user){
-                        var activities = await user.getActivities();
-                        res.json(activities);
-                    } else {res.status(404).send({msg:"Not found!"})}
-                })
-                .catch(err=>{
-                    console.log(`Error on trying to find user:\n${err}`)
-                    res.status(500).send({msg:"Internal Server Error"})
-                })
+            const user = await userRepository().findOne(userIdNbr)
+
+            if(!user){
+                return res.status(404).send({msg:"Not found!"})
+            }
+
+            let activities = await user.getActivities();
+            res.json(activities);
+                
         })();
     });
 

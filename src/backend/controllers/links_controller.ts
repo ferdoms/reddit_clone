@@ -72,21 +72,17 @@ export function getLinksController(
                         msg: "Id must be a number!"
                     });
                 }
-                await linkRepository().findOne(linkIdNbr)
-                    .then(async link=>{
-                        if(link){
-                            await linkRepository().delete(linkIdNbr)
-                            .then(()=> res.json({msg:"Item deleted"}))
-                            .catch(err=>{
-                                console.log(`Error on trying to delete link:\n${err}`)
-                                res.status(500).send({msg:"Internal Server Error"})
-                            })
-                        }else{res.status(404).send({msg:"Not found!"})}
-                    })
-                    .catch(err=>{
-                        console.log(`Error on trying to find user:\n${err}`)
-                        res.status(500).send({msg:"Internal Server Error"})
-                    });
+                const link = await linkRepository().findOne(linkIdNbr)
+                
+                if(link){
+                    return res.status(404).send({msg:"Not found!"})
+                }
+
+                await linkRepository().delete(linkIdNbr)
+                    .then(()=> res.json({msg:"Item deleted"}))
+                    .catch( err => {
+                        console.log(`Error on trying to delete link:\n${err}`)
+                        res.status(500).send({msg:"Internal Server Error"})});
             })();
     });
 

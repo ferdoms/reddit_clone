@@ -33,19 +33,22 @@ export function getCommentController(){
                 res.status(400).send({
                     msg: "Id must be a number!"
                 });
-            }await commentRepository().findOneOrFail(commentIdNbr)
-                .then(async oldComment => {
-                    await commentRepository().update(oldComment.id,{comment: updatedComment.comment})
-                    .then(comment => res.json(comment))
-                    .catch(err => {
-                        console.log(`Error on trying to save comment:\n${err}`)
-                        res.status(400).send({
-                            msg: "Bad request"
-                        });
+            }
+
+            const oldComment = await commentRepository().findOne(commentIdNbr);
+
+            if(!oldComment){
+                return res.status(404).send({msg:"Not found!"});
+            }
+
+            await commentRepository().update(oldComment.id,{comment: updatedComment.comment})
+                .then(comment => res.json(comment))
+                .catch(err => {
+                    console.log(`Error on trying to save comment:\n${err}`)
+                    res.status(400).send({
+                        msg: "Bad request"
+                    });
                 });
-                })
-                .catch(err => res.status(404).send({msg:"Not found!"}))
-            
         })()
     })
 
@@ -61,19 +64,17 @@ export function getCommentController(){
                     msg: "Id must be a number!"
                 });
             }
-            await commentRepository().findOneOrFail(commentIdNbr)
-                .then(async comment=>{
-                        await commentRepository().delete(commentIdNbr)
-                        .then(()=> res.json({msg:"Item deleted"}))
-                        .catch(err=>{
-                            console.log(`Error on trying to delete comment:\n${err}`)
-                            res.status(500).send({msg:"Internal Server Error"})
-                        })
-                })
+            const comment = await commentRepository().findOne(commentIdNbr);
+
+            if(!comment){
+                return res.status(404).send({msg:"Not found!"});
+            }
+            await commentRepository().delete(commentIdNbr)
+                .then(()=> res.json({msg:"Item deleted"}))
                 .catch(err=>{
-                    console.log(`Error on trying to find user:\n${err}`)
-                    res.status(404).send({msg:"Not found!"})
-                });
+                    console.log(`Error on trying to delete comment:\n${err}`)
+                    res.status(500).send({msg:"Internal Server Error"})
+                })
         })();
     });
 
