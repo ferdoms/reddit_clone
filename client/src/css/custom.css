@@ -1,0 +1,32 @@
+@import url("../bootstrap.css");
+
+/* Inactive tab */
+.customTabs > a {
+    background-color: white !important;
+    color: var(--secondary) !important;
+}
+.customTabs > a:hover {
+    background-color: rgb(0,123,255,0.1) !important;
+}
+
+/* Active tab */
+.customTabs > a.active,
+.customTabs > a.active:hover,
+.customTabs > a.active:focus {
+    background-color: rgb(0,123,255,0.1) !important;
+    color: var(--primary) !important;
+    border-bottom: 2px solid var(--primary) !important;
+}
+
+/* Disabled tab */
+.customTabs > a.disabled {
+    background-color: lightgray !important;
+    color: darkgray !important;
+}
+
+i.upvote:hover {
+    color: rgb(214, 0, 0) !important;
+}
+i.downvote:hover { 
+    color:  rgb(0,123,255) !important;
+}

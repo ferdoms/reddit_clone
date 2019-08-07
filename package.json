@@ -1,10 +1,14 @@
 {
   "name": "reddit_clone",
   "version": "1.0.0",
-  "description": "College Continuous Assessment",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "cd server && nodemon",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "dev": "concurrently \"npm run client\" \"npm run server\""
   },
   "repository": {
     "type": "git",
@@ -17,21 +21,7 @@
     "url": "https://github.com/ferdoms/reddit_clone/issues"
   },
   "homepage": "https://github.com/ferdoms/reddit_clone#readme",
-  "devDependencies": {
-    "@types/express": "^4.16.0",
-    "@types/node": "^10.12.10",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.1.6"
-  },
   "dependencies": {
-    "@types/dotenv": "^6.1.0",
-    "@types/node-fetch": "^2.1.4",
-    "class-validator": "^0.9.1",
-    "dotenv": "^6.1.0",
-    "express": "^4.16.4",
-    "node-fetch": "^2.3.0",
-    "pg": "^7.6.1",
-    "reflect-metadata": "^0.1.12",
-    "typeorm": "^0.2.9"
+    "concurrently": "^4.1.1"
   }
 }
