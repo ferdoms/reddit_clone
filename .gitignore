@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-node_modules
-=======
+
 
 # node_modules
 node_modules/
@@ -11,4 +9,3 @@ server/node_modules/
 .env
 client/.env
 server/.env
->>>>>>> client-server-setup

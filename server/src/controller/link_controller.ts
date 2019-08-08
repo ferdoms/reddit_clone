@@ -80,7 +80,7 @@ export function getLinkController() {
             const userId = (req as any).userId;
             const voted = await voteRepository.findOne({ link: linkId, user: userId})
             if(voted){
-                voted.vote=true
+                voted.isPositive=true
                 const vote = await voteRepository.save(voted);
                 res.json(vote);
             }else{
@@ -98,7 +98,7 @@ export function getLinkController() {
             let linkId = req.params.id;
             const voted = await voteRepository.findOne({ link: linkId, user: userId})
             if(voted){
-                voted.vote=false
+                voted.isPositive=false
                 const vote = await voteRepository.save(voted);
                 res.json(vote);
             }else{

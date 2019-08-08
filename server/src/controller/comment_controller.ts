@@ -70,7 +70,7 @@ export function getCommentController() {
                     res.status(400).send({ msg: "Bad request!" });
                 } else {
 
-                oldComment.comment = newComment.comment;
+                oldComment.content = newComment.comment;
                 console.log(oldComment)
                 const comments = await commentRepository.save(oldComment);
                 res.json(comments);

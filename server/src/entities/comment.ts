@@ -4,12 +4,14 @@ import { Link } from "./link";
 
 @Entity()
 export class Comment {
-    @PrimaryGeneratedColumn()
-    public id!: number;
-    @Column()
-    public comment!: string;
-    @ManyToOne(type => User, user => user.comment)
-    public user!: User;
-    @ManyToOne(type => Link, link => link.comment)
-    public link!: Link;
+  @PrimaryGeneratedColumn()
+  public id!: number;
+  @Column()
+  public content!: string;
+  @Column({ nullable: true })
+  public dateTime!: Date;
+  @ManyToOne(type => User, user => user.comments)
+  public user!: User;
+  @ManyToOne(type => Link, link => link.comments)
+  public link!: Link;
 }
